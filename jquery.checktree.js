@@ -1,59 +1,59 @@
 /**
-    Project: CheckTree jQuery Plugin
-    Version: 0.3 (porkchop)
-    Project Website: http://jquery-checktree.googlecode.com/
-    Author: JJ Geewax <jj@geewax.org>
-    
-    License:
-        The CheckTree jQuery plugin is currently available for use in all personal or 
-        commercial projects under both MIT and GPL licenses. This means that you can choose 
-        the license that best suits your project and use it accordingly.
+	Project: CheckTree jQuery Plugin
+	Version: 0.3 (porkchop)
+	Project Website: http://jquery-checktree.googlecode.com/
+	Author: JJ Geewax <jj@geewax.org>
+
+	License:
+		The CheckTree jQuery plugin is currently available for use in all personal or 
+		commercial projects under both MIT and GPL licenses. This means that you can choose 
+		the license that best suits your project and use it accordingly.
 */
 (function(jQuery) {
 jQuery.fn.checkTree = function(settings) {
-    
-    settings = jQuery.extend({
-        /* Callbacks
-            The callbacks should be functions that take one argument. The checkbox tree
-            will return the jQuery wrapped LI element of the item that was checked/expanded.
-        */
-        onExpand: null,
-        onCollapse: null,
-        onCheck: null,
-        onUnCheck: null,
-        onHalfCheck: null,
-        onLabelHoverOver: null,
-        onLabelHoverOut: null,
-        
-        /* Valid choices: 'expand', 'check' */
-        labelAction: "expand",
-        
-        // Debug (currently does nothing)
-        debug: false
-    }, settings);
-    
-    var $tree = jQuery("ul.tree");
+
+	settings = jQuery.extend({
+		/* Callbacks
+			The callbacks should be functions that take one argument. The checkbox tree
+			will return the jQuery wrapped LI element of the item that was checked/expanded.
+		*/
+		onExpand: null,
+		onCollapse: null,
+		onCheck: null,
+		onUnCheck: null,
+		onHalfCheck: null,
+		onLabelHoverOver: null,
+		onLabelHoverOut: null,
+		
+		/* Valid choices: 'expand', 'check' */
+		labelAction: "expand",
+		
+		// Debug (currently does nothing)
+		debug: false
+	}, settings);
+
+	var $tree = jQuery("ul.tree");
 	var $lis = $tree.find('li');
 	var $checkboxes = $lis.find(":checkbox");
-	
+
 	// Hide all checkbox inputs
-    $checkboxes.css('display', 'none');
-	
+	$checkboxes.css('display', 'none');
+
 	$lis.not(':has(.arrow)').each(function() {
 		// This little piece here is by far the slowest.
 		jQuery(this).prepend('<div class="arrow"></div><div class="checkbox"></div>');
 	});
-	
+
 	// Hide all sub-trees
 	$tree.find('li > ul').css('display', 'none');
-	
+
 	/*
 	What to do when the arrow is clicked
 	Tried:
-	 - $lis.filter(':has(li)').find(' > .arrow')
-	 - $lis.filter(':has(li)').find('.arrow')
-	 - $tree.find('li:has(li) .arrow')
-	 - $tree.find('li:has(li) > .arrow') <- This was the fastest.
+		- $lis.filter(':has(li)').find(' > .arrow')
+		- $lis.filter(':has(li)').find('.arrow')
+		- $tree.find('li:has(li) .arrow')
+		- $tree.find('li:has(li) > .arrow') <- This was the fastest.
 	*/
 	$tree.find('li:has(li) > .arrow')
 		.click(function() {
@@ -75,7 +75,7 @@ jQuery.fn.checkTree = function(settings) {
 		})
 		.addClass('collapsed')
 	;
-	
+
 	/*
 	What to do when the checkbox is clicked
 	*/
@@ -108,7 +108,7 @@ jQuery.fn.checkTree = function(settings) {
 			settings.onUnCheck($this.parent());
 		}
 	});
-	
+
 	/*
 	What to do when a checkbox gets a change event
 	(Fired when the children of this checkbox have changed)
@@ -143,7 +143,7 @@ jQuery.fn.checkTree = function(settings) {
 			$this.attr('checked', '');
 		}
 	});
-	
+
 	/*
 	What to do when a label is hovered or clicked
 	*/
@@ -174,7 +174,7 @@ jQuery.fn.checkTree = function(settings) {
 			}
 		)
 	;
-	
+
 	/*
 	Extra convenience methods
 	*/
